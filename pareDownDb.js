@@ -1,3 +1,16 @@
+/**
+ * Copyright 2013 tadbitstrange.com
+ * Licensed WTFPL (http://www.wtfpl.net/about/)
+ *
+ * Portions Copyright Next Century Corporation
+ * Portions Licensed MIT
+ */
+
+var CLEAR_PRE_START = false;
+var START = "09/16/2013";
+var CLEAR_POST_END = false;
+var END = "09/16/2013"
+
 var async = require('async');
 
 var host = "localhost";
@@ -15,7 +28,7 @@ mongoose.connect(connectString, function(err) {
         console.log('Unable to connect to ' + connectString);
         throw err;
 	} else {
-        console.log('Connected to ' + connectString);                        
+        console.log('Connected to ' + connectString);
 	}
 });
 
@@ -64,8 +77,8 @@ var assertion = mongoose.model('Assertion', AssertionSchema);
 
 
 
-var start = new Date("09/16/2013").getTime();
-
+var start = new Date(START).getTime();
+var end = new Date(END).getTime();
 
 var pareDown = function(skip) {
 	console.log("Checking range " + skip + "::" + (skip+1000));
@@ -73,7 +86,7 @@ var pareDown = function(skip) {
 	rawFeed.find({}).sort({_id:1}).skip(skip).limit(1000).execFind(function(err, results) {
 		async.each(results, function(rawfeed, callback) {
 			var thisDate = new Date(rawfeed.createdDate).getTime();
-			if(thisDate < start) {
+			if((CLEAR_PRE_START && thisDate < start) || (CLEAR_POST_END && thisDate > end)) {
 				var rawfeedID = rawfeed._id;
 				rawFeed.remove({_id:rawfeed._id}, function() {
 					alphaReport.find({raw_data_id: rawfeedID}, function(err, docs) {
