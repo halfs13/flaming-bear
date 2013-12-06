@@ -1,0 +1,14 @@
+{
+    "name": "twitter-stats",
+    "version": "0.0.1",
+    "main": "ingest.js",
+    "private": true,
+    "dependencies": {
+        "mongoose": ">=2.7.1",
+        "java":"=0.2.7",
+        "async":">=0.2.9"
+    },
+    "scripts": {
+        "test": "./node_modules/.bin/mocha"
+    }
+}
