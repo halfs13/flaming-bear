@@ -6,7 +6,7 @@ var java = require('java');
 
 var host = "localhost";
 var port = 27017;
-var db = "twitter_stats";
+var db = "twitter_stats1";
 
 var connectString = 'mongodb://' + host + ':' + port + '/' + db;
 mongoose.connect(connectString, function(err) {
@@ -58,7 +58,7 @@ var skipCount = 0; //derr dont need to update thi when using  the ne selector
 var toSave = {};
 
 var checkTweet = function() {
-    models.tweets.find({'processed': {$ne: true}}).sort({_id: 1}).skip(3).limit(1).exec(function(err, tweet) {
+    models.tweets.find({'single_processed': {$ne: true}}).sort({_id: 1}).skip(0).limit(1).exec(function(err, tweet) {
         tweet = tweet[0];
 
         if(skipCount % 20 === 0){
@@ -143,6 +143,7 @@ var checkTweet = function() {
             tweet.dot_product_type = (tweet.dot_product_type ? tweet.dot_product_type : null);
             tweet.edge_vertex_type = (tweet.dot_product_type ? tweet.dot_product_type : null);
             tweet.processed = true;
+            tweet.single_processed = true;
 
             //console.log(tweet);
 

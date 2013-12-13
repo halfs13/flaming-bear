@@ -19,7 +19,8 @@ var tweetModel = {
     dependency_type: {type: ObjectId},
     child_type: {type: ObjectId},
     dot_product_type: {type: ObjectId},
-    edge_vertex_type: {type: ObjectId}
+    edge_vertex_type: {type: ObjectId},
+    single_processed: {type: Boolean, "default": false}
 };
 
 var tweetSchema = new Schema(tweetModel);
