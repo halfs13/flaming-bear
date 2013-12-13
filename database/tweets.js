@@ -12,7 +12,14 @@ var tweetModel = {
     retweet_count: {type:Number, "default": 0, required:true},
     favorite: {type: Boolean, required:true},
     mentions: {type: [Number], required:false},
-    hashtags: {type: [String], required:false}
+    hashtags: {type: [String], required:false},
+    processed: {type: Boolean, "default": false},
+    pos_type: {type: ObjectId},
+    annotation_type: {type: ObjectId},
+    dependency_type: {type: ObjectId},
+    child_type: {type: ObjectId},
+    dot_product_type: {type: ObjectId},
+    edge_vertex_type: {type: ObjectId}
 };
 
 var tweetSchema = new Schema(tweetModel);

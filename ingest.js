@@ -1,13 +1,11 @@
 var fs = require('fs');
-var readline = require('readline');
-var stream = require('stream');
 var mongoose = require('mongoose');
 var async = require('async');
 
 
 var host = "localhost";
 var port = 27017;
-var db = "twitter_stats"
+var db = "twitter_stats";
 
 var connectString = 'mongodb://' + host + ':' + port + '/' + db;
 mongoose.connect(connectString, function(err) {
@@ -48,12 +46,12 @@ var readFileNames = function() {
     }
 
     processNextFile();
-}
+};
 
 
 var nextFileNames = function() {
     if(k < 9) {
-        k++
+        k++;
     } else {
         k = 0;
         if(j < 9) {
@@ -63,25 +61,25 @@ var nextFileNames = function() {
             if(i < 9) {
                 i++;
             } else {
-                process.exit(0)
+                process.exit(0);
             }
         }
     }
     readFileNames();
-}
+};
 
 
 var fileIndex = 192;//breaks on 193 & 212
 var processNextFile = function() {
     if(fileIndex < files.length) {
-        console.log("Opening file " + files[fileIndex])
+        console.log("Opening file " + files[fileIndex]);
         fileIndex++;
         processFile(files[fileIndex - 1]);
     } else {
         nextFileNames();
         //process.exit(0);
     }
-}
+};
 
 var saveTweets = function(tweets) {
     async.each(tweets, function(tweet, eachCallback) {
@@ -99,17 +97,17 @@ var saveTweets = function(tweets) {
 
         var newTweet = new models.tweets(data);
         newTweet.save(function(err) {
-            ++countComplete
+            ++countComplete;
             //if(countComplete % 1000 === 0) {
                 //console.log(countComplete);
             //}
             if (err) {
-                console.log("Error saving tweet ")
+                console.log("Error saving tweet ");
                 console.log(err);
             }
             eachCallback();
         });
-    }, function(err) {
+    }, function() {
         processNextFile();
     });
 };
@@ -127,7 +125,7 @@ var processFile = function(fileName) {
         //console.log("bad result calling next file");
         processNextFile();
     }
-}
+};
 readFileNames();
 
 // //use async.series here -- convert the other methods to take a callback
