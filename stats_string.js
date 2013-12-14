@@ -6,7 +6,7 @@ var java = require('java');
 
 var host = "localhost";
 var port = 27017;
-var db = "twitter_stats1";
+var db = "twitter_stats_61";
 
 var connectString = 'mongodb://' + host + ':' + port + '/' + db;
 mongoose.connect(connectString, function(err) {
@@ -58,19 +58,13 @@ var skipCount = 0; //derr dont need to update thi when using  the ne selector
 var toSave = {};
 
 var checkTweet = function() {
-    models.tweets.find({'string_processed': {$ne: true}}).sort({_id: 1}).skip(0).limit(100).exec(function(err, tweet) {
+    models.tweets.find({'string_processed': {$ne: true}}).sort({_id: 1}).skip(0).limit(100).exec(function(err, tweets) {
         //tweet = tweet[0];
         if(tweets.length === 0) {
             process.exit(0);
         }
 
         async.each(tweets, function(tweet, eachTweetCallback) {
-            if(skipCount % 20 === 0){
-                var date2 = new Date();
-                var seconds = (date2.getTime() - date1.getTime()) / 1000;
-                console.log(skipCount + ": " + tweet._id + " --- " + skipCount/seconds + "records/second");
-            }
-
             async.parallel([function(posCallback) {
                 posTagSentences(tweet.text, function(err, value) {
                     tweet.pos_string = value;
@@ -95,6 +89,14 @@ var checkTweet = function() {
                 //console.log(tweet);
 
                 tweet.save(function(err) {
+                    //console.log(err);
+
+                    if(skipCount % 20 === 0){
+                        var date2 = new Date();
+                        var seconds = (date2.getTime() - date1.getTime()) / 1000;
+                        console.log(skipCount + ": " + tweet._id + " --- " + skipCount/seconds + "records/second");
+                    }
+
                     skipCount++;
                     eachTweetCallback();
                 });

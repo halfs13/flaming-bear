@@ -17,7 +17,7 @@ var tweetModel = {
     pos_type: {type: ObjectId},
     pos_string: {type: String},
     annotation_type: {type: ObjectId},
-    annotation_string: {type: ObjectId},
+    annotation_string: {type: String},
     dependency_type: {type: ObjectId},
     child_type: {type: ObjectId},
     dot_product_type: {type: ObjectId},
