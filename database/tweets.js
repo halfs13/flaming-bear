@@ -15,12 +15,15 @@ var tweetModel = {
     hashtags: {type: [String], required:false},
     processed: {type: Boolean, "default": false},
     pos_type: {type: ObjectId},
+    pos_string: {type: String},
     annotation_type: {type: ObjectId},
+    annotation_string: {type: ObjectId},
     dependency_type: {type: ObjectId},
     child_type: {type: ObjectId},
     dot_product_type: {type: ObjectId},
     edge_vertex_type: {type: ObjectId},
-    single_processed: {type: Boolean, "default": false}
+    single_processed: {type: Boolean, "default": false},
+    string_processed: {type: Boolean, "default": false}
 };
 
 var tweetSchema = new Schema(tweetModel);
