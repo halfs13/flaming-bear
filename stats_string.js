@@ -6,7 +6,7 @@ var java = require('java');
 
 var host = "localhost";
 var port = 27017;
-var db = "twitter_stats_61";
+var db = "twitter_stats_60";
 
 var connectString = 'mongodb://' + host + ':' + port + '/' + db;
 mongoose.connect(connectString, function(err) {
@@ -58,7 +58,7 @@ var skipCount = 0; //derr dont need to update thi when using  the ne selector
 var toSave = {};
 
 var checkTweet = function() {
-    models.tweets.find({'string_processed': {$ne: true}}).sort({_id: 1}).skip(0).limit(100).exec(function(err, tweets) {
+    models.tweets.find({'string_processed': {$ne: true}}).sort({_id: 1}).skip(0).limit(2000).exec(function(err, tweets) {
         //tweet = tweet[0];
         if(tweets.length === 0) {
             process.exit(0);
